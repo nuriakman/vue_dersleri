@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { reactive, onMounted } from 'vue'
 
 const CEVAP = reactive({ iller: [], ilceler: [], semtler: [], mahalleler: [] })
 const SECIM = reactive({ il: {}, ilce: {}, semt: {}, mahalle: {} })
