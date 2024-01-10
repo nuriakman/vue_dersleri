@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import TestView from '../views/TestView.vue'
+import VuetifyView from '../views/VuetifyView.vue'
+import PiniaView from '../views/PiniaView.vue'
+import SayacView from '../views/SayacView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,9 +13,19 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/test',
-      name: 'test',
-      component: TestView
+      path: '/vuetify',
+      name: 'vuetify',
+      component: VuetifyView
+    },
+    {
+      path: '/pinia',
+      name: 'piniaTest',
+      component: PiniaView
+    },
+    {
+      path: '/sayac',
+      name: 'sayac',
+      component: SayacView
     }
   ]
 })

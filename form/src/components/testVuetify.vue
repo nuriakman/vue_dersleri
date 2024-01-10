@@ -11,9 +11,10 @@ const selectedIl = ref([])
 </script>
 
 <template>
-  <h1>Vuetify Kullanımı</h1>
+  <h3>Vuetify v-combobox Kullanım Örneği:</h3>
+  <p>&nbsp;</p>
   <v-combobox
-    label="Seçiniz..."
+    label="İl Seçiniz..."
     v-model="selectedIl"
     :items="ILLER"
     item-title="il_adi"
@@ -23,6 +24,8 @@ const selectedIl = ref([])
     multiple
     chips
   ></v-combobox>
-  <h3>Seçilen İl:</h3>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+  <h3>selectedIl Adlı Değişkenin Değeri:</h3>
   <pre>{{ selectedIl }}</pre>
 </template>

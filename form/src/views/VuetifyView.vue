@@ -3,7 +3,7 @@ import testVuetify from '../components/testVuetify.vue'
 </script>
 
 <template>
-  <main style="width: 600px">
-    <testVuetify />
-  </main>
+  <h1>Burası Vuetify View Sayfasıdır</h1>
+  <p>&nbsp;</p>
+  <testVuetify />
 </template>

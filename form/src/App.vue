@@ -4,14 +4,15 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <p>&nbsp;</p>
-  <hr />
+  <p>&nbsp;</p>
   <header>
     <nav>
-      <RouterLink to="/" style="margin-right: 30px">Ana Sayfa</RouterLink>
-      <RouterLink to="/test">Test Vuetify</RouterLink>
+      <RouterLink to="/">Ana Sayfa</RouterLink> | <RouterLink to="/pinia">Pinia</RouterLink> |
+      <RouterLink to="/sayac">Sayac</RouterLink> |
+      <RouterLink to="/vuetify">Vuetify</RouterLink>
     </nav>
   </header>
-  <hr />
+  <p>&nbsp;</p>
   <p>&nbsp;</p>
   <RouterView />
 </template>
