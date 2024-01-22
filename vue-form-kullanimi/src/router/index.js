@@ -20,7 +20,9 @@ const router = createRouter({
       path: '/liste',
       name: 'liste',
       component: ListeView
-    }
+    },
+    // default redirect to home page
+    { path: '/:pathMatch(.*)*', redirect: '/' }
   ]
 })
 
