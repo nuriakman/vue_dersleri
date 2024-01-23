@@ -67,3 +67,46 @@ function base64UrlEncode($data)
 {
   return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
 }
+
+function verifyJWT($authorizationHeader, $secretKey = "")
+{
+  global $mySecretKeyForJwt;
+  if ($secretKey == "") $secretKey = $mySecretKeyForJwt;
+
+  // Extract the token from the Authorization header (assuming it is in the format "Bearer {token}")
+  $tokenParts = explode(' ', $authorizationHeader);
+  $token = isset($tokenParts[1]) ? $tokenParts[1] : '';
+
+  if (empty($token)) {
+    die('No token provided.');
+  }
+
+  // Split the token into its three parts
+  list($header, $payload, $signature) = explode('.', $token);
+
+  // Base64 decode the header and payload
+  $decodedHeader = base64_decode($header);
+  $decodedPayload = base64_decode($payload);
+
+  // Recreate the signature from the decoded parts
+  $calculatedSignature = hash_hmac('sha256', "$header.$payload", $secretKey, true);
+  $calculatedSignature = base64UrlEncode($calculatedSignature);
+  // Compare the recreated signature with the received signature
+  if ($calculatedSignature == $signature) {
+    // Signature is valid, proceed to check expiration time (exp claim)
+
+    // You can access the claims in the payload
+    $claims = json_decode($decodedPayload, true);
+
+    // Check if the token is expired
+    $currentTimestamp = time();
+    if (isset($claims['exp']) && $claims['exp'] > $currentTimestamp) {
+      echo "Token is valid and not expired!\n";
+      print_r($claims);
+    } else {
+      echo "Token has expired!\n";
+    }
+  } else {
+    echo "Token validation failed!\n";
+  }
+} // verifyJWT
