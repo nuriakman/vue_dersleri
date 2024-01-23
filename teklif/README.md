@@ -9,7 +9,7 @@ npm create vue@latest
 npm install @picocss/pico
 npm install axios
 // npm instal @vueuse/core
-// npm install jwt-decode@^3
+npm install jwt-decode
 ```
 
 ## Aldığım Yardımlar

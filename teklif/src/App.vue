@@ -1,20 +1,12 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import navBar from '@/components/navBar.vue'
 </script>
 
 <template>
   <main class="container">
     <header>
-      <nav>
-        <ul>
-          <li><strong>Teklif</strong></li>
-        </ul>
-        <ul>
-          <li><RouterLink to="/">AnaSayfa</RouterLink></li>
-          <li><RouterLink to="/about">Hakkında</RouterLink></li>
-          <li><RouterLink to="/login">Giriş</RouterLink></li>
-        </ul>
-      </nav>
+      <navBar />
     </header>
     <RouterView />
   </main>

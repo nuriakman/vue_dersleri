@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import LoginView from '@/views/LoginView.vue'
+import WelcomeView from '@/views/WelcomeView.vue'
 import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
 const router = createRouter({
@@ -12,7 +13,8 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        menuName: 'Home'
       }
     },
     {
@@ -20,7 +22,8 @@ const router = createRouter({
       name: 'about',
       component: AboutView,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        menuName: 'Hakkımızda'
       }
     },
     {
@@ -28,7 +31,17 @@ const router = createRouter({
       name: 'login',
       component: LoginView,
       meta: {
-        requiresAuth: false
+        requiresAuth: false,
+        menuName: 'Giriş'
+      }
+    },
+    {
+      path: '/welcome',
+      name: 'welcome',
+      component: WelcomeView,
+      meta: {
+        requiresAuth: true,
+        menuName: 'Anasayfa'
       }
     },
     {
