@@ -1,6 +1,19 @@
 <?php
 
-require_once 'degiskenler.php';
+function dieErrorWithJson($message)
+{
+  $arrResponse = array();
+  $arrResponse['error'] = $message;
+  $arrResponse['success'] = false;
+  dieWithJson($arrResponse);
+} // dieErrorWithJson
+
+function dieWithJson($arrResponse)
+{
+  header('Content-Type: application/json; charset=utf-8');
+  echo json_encode($arrResponse, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+  die();
+} // dieWithJson
 
 function DD($el, $title = "")
 {
@@ -9,13 +22,13 @@ function DD($el, $title = "")
   <pre>";
   print_r($el);
   echo "</pre>";
-}
+} // DD
 
 function DDD($el, $title = "")
 {
   DD($el, $title);
   die();
-}
+} // DDD
 
 function BuyukHarf($str)
 {
@@ -27,10 +40,8 @@ function BuyukHarf($str)
 } // BuyukHarf
 
 
-function generateJWT($id, $payloadData)
+function generateJWT($id, $payloadData, $mySecretKeyForJwt)
 {
-  global $mySecretKeyForJwt;
-
   // JWT başlığı (header) (Bu bölüm SABİT)
   $header = [
     'alg' => 'HS256',
@@ -68,29 +79,33 @@ function base64UrlEncode($data)
   return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
 }
 
-function verifyJWT($authorizationHeader, $secretKey = "")
+function verifyJWT($secretKey)
 {
-  global $mySecretKeyForJwt;
-  if ($secretKey == "") $secretKey = $mySecretKeyForJwt;
+  $validToken = true;
+
+  // "Header" bilgisinden "Authorization" verisini al
+  $headers = getallheaders();
+  $authorizationHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
 
   // Extract the token from the Authorization header (assuming it is in the format "Bearer {token}")
   $tokenParts = explode(' ', $authorizationHeader);
   $token = isset($tokenParts[1]) ? $tokenParts[1] : '';
 
   if (empty($token)) {
-    die('No token provided.');
+    return array(!$validToken, 'Token bulunamadı!');
   }
 
   // Split the token into its three parts
   list($header, $payload, $signature) = explode('.', $token);
 
   // Base64 decode the header and payload
-  $decodedHeader = base64_decode($header);
+  $decodedHeader  = base64_decode($header);
   $decodedPayload = base64_decode($payload);
 
   // Recreate the signature from the decoded parts
   $calculatedSignature = hash_hmac('sha256', "$header.$payload", $secretKey, true);
   $calculatedSignature = base64UrlEncode($calculatedSignature);
+
   // Compare the recreated signature with the received signature
   if ($calculatedSignature == $signature) {
     // Signature is valid, proceed to check expiration time (exp claim)
@@ -101,12 +116,12 @@ function verifyJWT($authorizationHeader, $secretKey = "")
     // Check if the token is expired
     $currentTimestamp = time();
     if (isset($claims['exp']) && $claims['exp'] > $currentTimestamp) {
-      echo "Token is valid and not expired!\n";
-      print_r($claims);
+      return array($validToken, 'Token geçerli!'); // Token ve süresi geçerli!
+      //print_r($claims);
     } else {
-      echo "Token has expired!\n";
+      return array(!$validToken, 'Token geçerlilik süresi bitmiş!');
     }
   } else {
-    echo "Token validation failed!\n";
+    return array(!$validToken, 'Token doğrulanamadı!');
   }
 } // verifyJWT
