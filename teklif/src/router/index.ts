@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useGlobalStore } from '@/stores/store'
 import HomeView from '@/views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import LoginView from '@/views/LoginView.vue'
@@ -12,6 +13,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+      alias: ['/home', '/anasayfa'],
       meta: {
         requiresAuth: true,
         menuName: 'Home'
@@ -53,6 +55,19 @@ const router = createRouter({
       }
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const globalStore = useGlobalStore()
+  if (to.meta.requiresAuth) {
+    if (globalStore.isLoggedIn) {
+      next()
+    } else {
+      next({ name: 'login' })
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

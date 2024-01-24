@@ -29,7 +29,7 @@ function doLogin() {
       if (response.data.success) {
         const decoded = jwtDecode<JwtPayload>(response.data.token) // Returns with the JwtPayload type
         globalStore.login(response.data.token, decoded.sub, decoded.adisoyadi)
-        router.push({ name: 'Home' })
+        router.push({ name: 'home' })
       } else {
         localStorage.removeItem('token')
       }
