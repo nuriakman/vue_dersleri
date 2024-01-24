@@ -1,9 +1,4 @@
 <script setup lang="ts">
-// import { RouterLink } from 'vue-router'
-import routes from '@/router/index'
-const myRoutes = routes.options.routes
-// const myRoutes = routes.options.routes.filter((r) => r.meta.requiresAuth == true)
-
 import { useGlobalStore } from '@/stores/store'
 const globalStore = useGlobalStore()
 </script>
@@ -13,12 +8,24 @@ const globalStore = useGlobalStore()
     <ul>
       <li><strong>Teklif</strong></li>
     </ul>
-    <ul>
-      <template v-for="r in myRoutes" :key="r.path">
-        <li v-if="r.meta && r.meta.requiresAuth == globalStore.isLoggedIn">
-          <RouterLink :to="r.path"> {{ r.meta.menuName }}</RouterLink>
-        </li>
-      </template>
+    <ul v-if="!globalStore.user.isLoggedIn">
+      <li>
+        <a href="#" role="button" class="outline">
+          <RouterLink to="/login">Giriş Yap</RouterLink>
+        </a>
+      </li>
+    </ul>
+    <ul v-if="globalStore.user.isLoggedIn">
+      <li>
+        <a href="#" role="button" class="outline">
+          <RouterLink to="/">Ana Sayfa</RouterLink>
+        </a>
+      </li>
+      <li>
+        <a href="#" role="button" class="outline">
+          <RouterLink to="/logout">Oturumu Kapat</RouterLink>
+        </a>
+      </li>
     </ul>
   </nav>
 </template>

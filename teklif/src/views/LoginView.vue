@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import router from '@/router'
 import axios from 'axios'
 import { reactive } from 'vue'
 import jwtDecode from 'jwt-decode'
@@ -8,13 +9,13 @@ const globalStore = useGlobalStore()
 
 // JwtPayload tipini tanımlayalım
 interface JwtPayload {
-  sub: string
+  sub: number
   exp: number
   adisoyadi: string
   eposta: string
 }
 
-const user = reactive({
+const formData = reactive({
   username: '',
   password: ''
 })
@@ -23,25 +24,15 @@ function doLogin() {
   axios
     .post('/index.php', {
       method: 'login',
-      user
+      user: formData
     })
     .then(function (response) {
       if (response.data.success) {
-        localStorage.setItem('token', response.data.token)
         const decoded = jwtDecode<JwtPayload>(response.data.token) // Returns with the JwtPayload type
-        localStorage.setItem('id', decoded.sub) // LocalStore içine kaydedelim.
-        globalStore.userId = parseInt(decoded.sub) // Pinia GlobalStore içinde saklayalım
-        globalStore.user.name = decoded.adisoyadi
-        globalStore.user.mail = decoded.eposta
-        globalStore.isLoggedIn = true
-        globalStore.kisi = decoded
-        localStorage.setItem('KISI', JSON.stringify(decoded)) // JSON.parse() ile Array'e çevirebiliriz
-        // router.push('/welcome')
+        globalStore.login(response.data.token, decoded.sub, decoded.adisoyadi)
+        router.push({ name: 'Home' })
       } else {
-        globalStore.userId = 0
-        globalStore.user.name = ''
-        globalStore.user.mail = ''
-        globalStore.isLoggedIn = false
+        localStorage.removeItem('token')
       }
 
       console.log(response)
@@ -60,12 +51,12 @@ function doLogin() {
       <div class="grid">
         <label for="username">
           Kullanıcı Adınız
-          <input type="text" v-model="user.username" placeholder="kullanıcı adı" />
+          <input type="text" v-model="formData.username" placeholder="kullanıcı adı" />
         </label>
 
         <label for="password">
           Parolanız
-          <input type="password" v-model="user.password" placeholder="parola" />
+          <input type="password" v-model="formData.password" placeholder="parola" />
         </label>
       </div>
 
