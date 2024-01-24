@@ -12,7 +12,6 @@ interface JwtPayload {
   sub: number
   exp: number
   adisoyadi: string
-  eposta: string
 }
 
 const formData = reactive({
@@ -46,7 +45,6 @@ function doLogin() {
 <template>
   <main>
     <h1>Giriş</h1>
-    <pre>{{ globalStore }}</pre>
     <form autocomplete="off" @submit.prevent="doLogin">
       <div class="grid">
         <label for="username">

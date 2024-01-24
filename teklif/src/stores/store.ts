@@ -42,6 +42,9 @@ export const useGlobalStore = defineStore({
     const user = { id: 0, name: '', isLoggedIn: false }
     return { user }
   },
+  getters: {
+    isLoggedIn: (state) => state.user.isLoggedIn
+  },
   actions: {
     login(utoken: string, uid: number, uname: string) {
       this.user = { id: uid, name: uname, isLoggedIn: true }

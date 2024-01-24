@@ -35,5 +35,3 @@ if (function_exists('date_default_timezone_set')) {
   //putenv("TZ=Europe/Istanbul"); // Zaman Dilimini TÜRKİYE'ye göre ayarla.
   putenv("TZ=Asia/Riyadh"); // Zaman Dilimini TÜRKİYE'ye göre ayarla.
 }
-
-require_once 'fonksiyonlarim.php';
