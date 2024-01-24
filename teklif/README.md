@@ -12,6 +12,10 @@ npm install axios
 npm install jwt-decode
 ```
 
+## Proje: VueGuard
+
+VueGuard, modern web teknolojilerini kullanarak geliştirilen güvenli, dinamik ve etkileşimli bir web uygulamasını temsil eder. Proje, PHP tabanlı bir API ile Vue 3, Composition API, TypeScript, Axios, Pinia ve Vue Router gibi Vue ekosistemi araçlarını içerir. Kullanıcı kimlik doğrulama (authentication) için JWT (JSON Web Token) kullanır ve kullanıcının yetkilendirme durumuna bağlı olarak farklı menü seçenekleri sunar. Verilerin saklanması için Local Storage ve veritabanı etkileşimi için JSON formatı kullanılır. Minimalist ve hızlı bir kullanıcı arayüzü için Picocss çerçevesi tercih edilmiştir. VueGuard, Vue.js'in güçlü ve esnek özelliklerini, TypeScript'in güvenli kodlama yapısını ve Pinia'nın state yönetimi konusundaki avantajlarını birleştirerek güvenli ve performanslı bir web deneyimi sunar.
+
 ## Aldığım Yardımlar
 
 - https://stackoverflow.com/a/71744206/134739 TS server restart
