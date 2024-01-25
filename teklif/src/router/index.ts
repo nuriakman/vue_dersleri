@@ -16,7 +16,8 @@ const router = createRouter({
       alias: ['/home', '/anasayfa'],
       meta: {
         requiresAuth: true,
-        menuName: 'Home'
+        menuName: 'Home',
+        title: 'Anasayfa'
       }
     },
     {
@@ -25,7 +26,8 @@ const router = createRouter({
       component: AboutView,
       meta: {
         requiresAuth: true,
-        menuName: 'Hakkımızda'
+        menuName: 'Hakkımızda',
+        title: 'Hakkımızda Sayfası'
       }
     },
     {
@@ -34,7 +36,8 @@ const router = createRouter({
       component: LoginView,
       meta: {
         requiresAuth: false,
-        menuName: 'Giriş'
+        menuName: 'Giriş',
+        title: 'Giriş Sayfası'
       }
     },
     {
@@ -52,7 +55,8 @@ const router = createRouter({
       name: 'notfound',
       component: PageNotFoundView,
       meta: {
-        requiresAuth: false
+        requiresAuth: false,
+        title: 'Bulunamadı...'
       }
     }
   ]
@@ -69,6 +73,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+})
+
+const DEFAULT_TITLE = 'Teklif Projesi'
+
+router.afterEach((to) => {
+  document.title = String(to.meta.title) || DEFAULT_TITLE // String çağırmazsan document.title'a atama yapamıyorum
 })
 
 export default router
