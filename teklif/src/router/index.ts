@@ -78,7 +78,7 @@ router.beforeEach((to, from, next) => {
 const DEFAULT_TITLE = 'Teklif Projesi'
 
 router.afterEach((to) => {
-  document.title = String(to.meta.title) || DEFAULT_TITLE // TS nedeniyle, String çağırmazsam document.title'a atama yapamıyorum
+  document.title = to.meta.title ? String(to.meta.title) : DEFAULT_TITLE // TS nedeniyle, String çağırmazsam document.title'a atama yapamıyorum
 })
 
 export default router

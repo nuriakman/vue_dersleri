@@ -33,8 +33,6 @@ function doLogin() {
       } else {
         localStorage.removeItem('token')
       }
-
-      console.log(response)
     })
     .catch(function (error) {
       console.log(error)
