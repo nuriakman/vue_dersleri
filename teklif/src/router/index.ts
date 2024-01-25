@@ -3,6 +3,7 @@ import { useGlobalStore } from '@/stores/store'
 import HomeView from '@/views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import LoginView from '@/views/LoginView.vue'
+import LogoutView from '@/views/LogoutView.vue'
 import WelcomeView from '@/views/WelcomeView.vue'
 import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
@@ -35,6 +36,15 @@ const router = createRouter({
       meta: {
         requiresAuth: false,
         menuName: 'Giriş'
+      }
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: LogoutView,
+      meta: {
+        requiresAuth: false,
+        menuName: 'Çıkış'
       }
     },
     {
