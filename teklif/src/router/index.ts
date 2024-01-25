@@ -4,7 +4,6 @@ import HomeView from '@/views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import LoginView from '@/views/LoginView.vue'
 import LogoutView from '@/views/LogoutView.vue'
-import WelcomeView from '@/views/WelcomeView.vue'
 import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
 const router = createRouter({
@@ -44,16 +43,8 @@ const router = createRouter({
       component: LogoutView,
       meta: {
         requiresAuth: false,
-        menuName: 'Çıkış'
-      }
-    },
-    {
-      path: '/welcome',
-      name: 'welcome',
-      component: WelcomeView,
-      meta: {
-        requiresAuth: true,
-        menuName: 'Anasayfa'
+        menuName: 'Çıkış',
+        title: 'Çıkış Sayfası'
       }
     },
     {
