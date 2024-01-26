@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import router from '@/router'
+import router from '@/router/router'
 import axios from 'axios'
-import { reactive } from 'vue'
-import jwtDecode from 'jwt-decode'
+import { reactive, onMounted } from 'vue'
 
 import { useGlobalStore } from '@/stores/store'
 const globalStore = useGlobalStore()
 
-// JwtPayload tipini tanımlayalım
-interface JwtPayload {
-  sub: number
-  exp: number
-  adisoyadi: string
-}
+onMounted(() => {
+  console.log('onMounted: loginView')
+  /*
+  if (globalStore.login()) {
+    router.push({ name: 'home' })
+  }
+  */
+})
 
 const formData = reactive({
   username: '',
@@ -27,9 +28,11 @@ function doLogin() {
     })
     .then(function (response) {
       if (response.data.success) {
-        const decoded = jwtDecode<JwtPayload>(response.data.token) // Returns with the JwtPayload type
-        globalStore.login(response.data.token, decoded.sub, decoded.adisoyadi)
-        router.push({ name: 'home' })
+        if (globalStore.login(response.data.token)) {
+          router.push({ name: 'home' })
+        } else {
+          alert('ne oldu?')
+        }
       } else {
         localStorage.removeItem('token')
       }
@@ -43,6 +46,7 @@ function doLogin() {
 <template>
   <main>
     <h1>Giriş</h1>
+    {{ globalStore }}
     <form autocomplete="off" @submit.prevent="doLogin">
       <div class="grid">
         <label for="username">
@@ -60,3 +64,4 @@ function doLogin() {
     </form>
   </main>
 </template>
+@/router/router

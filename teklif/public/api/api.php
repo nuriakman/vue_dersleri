@@ -10,7 +10,12 @@ require_once 'fonksiyonlarim.php';
 // Çünkü çağırırken "Content-Type: application/json" olarak belirtiyoruz
 $temp = file_get_contents("php://input");
 $data = json_decode($temp, true); // true ile json objesini diziye çevirdik
-$METHOD = $data['method']; // Switch yapısı bu değişkene göre çalışıyor
+
+$METHOD = isset($_GET['method']) ? $_GET['method'] : ""; // Switch yapısı $METHOD değişkene göre çalışıyor
+
+if (isset($data['method'])) {
+  $METHOD = $data['method'];
+}
 
 if ($METHOD <> 'login') {
   list($isVerified, $message) = verifyJWT($mySecretKeyForJwt);
@@ -48,9 +53,9 @@ switch ($METHOD) {
     }
     break;
 
-  case 'getData':
+  case 'get-teklifler':
     ################################### getData ###################################
-    $sql = "SELECT id, firmaadi FROM teklifler LIMIT 2";
+    $sql = "SELECT * FROM teklifler ORDER BY id DESC";
     $SORGU = $DB->prepare($sql);
     $SORGU->execute();
     $rows = $SORGU->fetchAll(PDO::FETCH_ASSOC);

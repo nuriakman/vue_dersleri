@@ -11,6 +11,11 @@
       </li>
       <li>
         <a href="#" role="button" class="outline">
+          <RouterLink to="/offers">Teklifler</RouterLink>
+        </a>
+      </li>
+      <li>
+        <a href="#" role="button" class="outline">
           <RouterLink to="/about">Hakkında...</RouterLink>
         </a>
       </li>

@@ -1,10 +1,18 @@
 import { defineStore } from 'pinia'
 import { computed, reactive } from 'vue'
+import jwtDecode from 'jwt-decode'
 
 interface User {
   id: number
   name: string
   isLoggedIn: boolean
+}
+
+// JwtPayload tipini tanımlayalım
+interface JwtPayload {
+  sub: number
+  exp: number
+  adisoyadi: string
 }
 
 export const useGlobalStore = defineStore('global', () => {
@@ -15,12 +23,29 @@ export const useGlobalStore = defineStore('global', () => {
   const isLoggedIn = computed(() => user.isLoggedIn)
 
   // methods/actions
-  function login(utoken: string, uid: number, uname: string) {
-    user.id = uid
-    user.name = uname
-    user.isLoggedIn = true
-    localStorage.setItem('token', utoken)
-  }
+  function login(utoken?: string): boolean {
+    if (typeof utoken === 'undefined') {
+      utoken = localStorage.getItem('token') || ''
+
+      if (utoken == '' || utoken == null) {
+        // Eğer token yoksa giriş yapma işlemi başarısız olmalı
+        return false
+      }
+    }
+
+    const decoded = jwtDecode<JwtPayload>(utoken!)
+
+    // Decoded kontrolü eklenebilir
+    if (decoded && decoded.sub && decoded.adisoyadi) {
+      user.id = decoded.sub
+      user.name = decoded.adisoyadi
+      localStorage.setItem('token', utoken as string)
+      return true
+    }
+
+    // Eğer decoded uygun değilse giriş yapma işlemi başarısız olmalı
+    return false
+  } // login
 
   function logout() {
     user.id = 0
@@ -28,7 +53,7 @@ export const useGlobalStore = defineStore('global', () => {
     user.isLoggedIn = false
     localStorage.removeItem('token')
     localStorage.clear() // Her şeyi sil
-  }
+  } // logout
 
   return { user, isLoggedIn, login, logout }
 })
