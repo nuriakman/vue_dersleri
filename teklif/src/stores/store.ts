@@ -23,26 +23,27 @@ export const useGlobalStore = defineStore('global', () => {
   const isLoggedIn = computed(() => user.isLoggedIn)
 
   // methods/actions
-  function login(utoken?: string): boolean {
-    if (typeof utoken === 'undefined') {
-      utoken = localStorage.getItem('token') || ''
-
-      if (utoken == '' || utoken == null) {
-        // Eğer token yoksa giriş yapma işlemi başarısız olmalı
-        return false
-      }
+  function getUserInfoFromStoredToken() {
+    const token = localStorage.getItem('token')
+    if (token) {
+      const decoded = jwtDecode<JwtPayload>(token)
+      user.id = decoded.sub
+      user.name = decoded.adisoyadi
+      user.isLoggedIn = true
+      return true // Kullanıcının token'ı var
     }
+    return false // Kullanıcının token'ı yok.
+  }
 
-    const decoded = jwtDecode<JwtPayload>(utoken!)
-
-    // Decoded kontrolü eklenebilir
+  function login(utoken: string): boolean {
+    const decoded = jwtDecode<JwtPayload>(utoken)
     if (decoded && decoded.sub && decoded.adisoyadi) {
       user.id = decoded.sub
       user.name = decoded.adisoyadi
+      user.isLoggedIn = true
       localStorage.setItem('token', utoken as string)
       return true
     }
-
     // Eğer decoded uygun değilse giriş yapma işlemi başarısız olmalı
     return false
   } // login
@@ -55,7 +56,7 @@ export const useGlobalStore = defineStore('global', () => {
     localStorage.clear() // Her şeyi sil
   } // logout
 
-  return { user, isLoggedIn, login, logout }
+  return { user, isLoggedIn, login, logout, getUserInfoFromStoredToken }
 })
 
 /*

@@ -7,7 +7,6 @@ export function useAxiosInterceptors() {
   // Composable içinde state tanımlayabilirsiniz
   const requestInterceptor = ref<number | null>(null)
   const responseInterceptor = ref<number | null>(null)
-
   // Axios request interceptor'ı
   const setupRequestInterceptor = () => {
     requestInterceptor.value = axios.interceptors.request.use(

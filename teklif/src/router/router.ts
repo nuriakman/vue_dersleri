@@ -5,6 +5,7 @@ import AboutView from '@/views/AboutView.vue'
 import LoginView from '@/views/LoginView.vue'
 import LogoutView from '@/views/LogoutView.vue'
 import OfferView from '@/views/OfferView.vue'
+import OfferEditView from '@/views/OfferEditView.vue'
 import OffersView from '@/views/OffersView.vue'
 import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
@@ -32,7 +33,7 @@ const router = createRouter({
     },
     {
       path: '/offers',
-      name: 'offers',
+      name: 'offerList',
       component: OffersView,
       meta: {
         requiresAuth: true,
@@ -40,12 +41,21 @@ const router = createRouter({
       }
     },
     {
-      path: '/offers/:id',
-      name: 'offer',
+      path: '/offer/edit/:id',
+      name: 'offerEdit',
+      component: OfferEditView,
+      meta: {
+        requiresAuth: true,
+        title: 'Teklif Düzenle'
+      }
+    },
+    {
+      path: '/offer/view/:id',
+      name: 'offerView',
       component: OfferView,
       meta: {
         requiresAuth: true,
-        title: 'Teklif Detayı'
+        title: 'Teklif Detayı İzle'
       }
     },
     {
@@ -80,13 +90,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const globalStore = useGlobalStore()
-  console.log(to.name)
   if (to.meta.requiresAuth) {
     if (globalStore.isLoggedIn) {
       next()
     } else {
-      next({ name: 'login' })
+      if (globalStore.getUserInfoFromStoredToken()) {
+        next()
+      }
     }
+    next({ name: 'login', replace: true, query: { redirect: to.fullPath } })
   } else {
     next()
   }

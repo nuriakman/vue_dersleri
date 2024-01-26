@@ -14,11 +14,11 @@ app.mount('#app')
 import axios from 'axios'
 import { useAxiosInterceptors } from '@/composables/useAxiosInterceptors'
 const axiosInstance = useAxiosInterceptors()
-/*
-  const { setupRequestInterceptor, setupResponseInterceptor } = useAxiosInterceptors()
-  setupRequestInterceptor()
-  setupResponseInterceptor()
-*/
+const { setupRequestInterceptor, setupResponseInterceptor } = useAxiosInterceptors()
+
+setupRequestInterceptor()
+setupResponseInterceptor()
+
 axios.defaults.baseURL = 'http://localhost/vue/teklif/public/api' // Sonunda '/' yok!
 axios.defaults.timeout = 5000 // 5 saniye
 axios.defaults.headers.post['Content-Type'] = 'application/json' // PHP ile iletişim JSON formatındaki veri ile yapılacak

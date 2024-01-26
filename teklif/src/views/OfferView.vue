@@ -1,3 +1,3 @@
 <template>
-  <h1>Offer</h1>
+  <h1>Teklif Detayı</h1>
 </template>

@@ -1,16 +1,21 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import router from '@/router/router'
 import axios from 'axios'
 import { reactive, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+const myRouter = useRouter()
+const goToPage = ref<string | null>(null)
 
 import { useGlobalStore } from '@/stores/store'
 const globalStore = useGlobalStore()
 
 onMounted(() => {
-  console.log('onMounted: loginView')
   /*
-  if (globalStore.login()) {
-    router.push({ name: 'home' })
+  if (globalStore.getUserInfoFromStoredToken()) {
+    // router.push({ name: 'home' })
+    // const { myVar } = $route.query
+    // const currentRouteName = $route.name;
   }
   */
 })
@@ -29,9 +34,10 @@ function doLogin() {
     .then(function (response) {
       if (response.data.success) {
         if (globalStore.login(response.data.token)) {
-          router.push({ name: 'home' })
+          goToPage.value = myRouter.currentRoute.value.query.redirect as string | '/'
+          router.push(goToPage.value)
         } else {
-          alert('ne oldu?')
+          alert('Login başarısız oldu...')
         }
       } else {
         localStorage.removeItem('token')

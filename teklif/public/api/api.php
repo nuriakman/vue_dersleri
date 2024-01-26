@@ -10,12 +10,7 @@ require_once 'fonksiyonlarim.php';
 // Çünkü çağırırken "Content-Type: application/json" olarak belirtiyoruz
 $temp = file_get_contents("php://input");
 $data = json_decode($temp, true); // true ile json objesini diziye çevirdik
-
-$METHOD = isset($_GET['method']) ? $_GET['method'] : ""; // Switch yapısı $METHOD değişkene göre çalışıyor
-
-if (isset($data['method'])) {
-  $METHOD = $data['method'];
-}
+$METHOD = $data['method'];
 
 if ($METHOD <> 'login') {
   list($isVerified, $message) = verifyJWT($mySecretKeyForJwt);
@@ -55,12 +50,23 @@ switch ($METHOD) {
 
   case 'get-teklifler':
     ################################### getData ###################################
-    $sql = "SELECT * FROM teklifler ORDER BY id DESC";
+    $sql = "SELECT * FROM teklifler ORDER BY id DESC LIMIT 10";
     $SORGU = $DB->prepare($sql);
     $SORGU->execute();
     $rows = $SORGU->fetchAll(PDO::FETCH_ASSOC);
     $response['success'] = true; // İşlem başarılı
-    $response['rows'] = $rows;
+    $response['items'] = $rows;
+    break;
+
+  case 'get-teklif':
+    ################################### getData ###################################
+    $sql = "SELECT * FROM teklifler WHERE id = :id";
+    $SORGU = $DB->prepare($sql);
+    $SORGU->bindParam(':id', $data['id']);
+    $SORGU->execute();
+    $row = $SORGU->fetch(PDO::FETCH_ASSOC);
+    $response['success'] = true; // İşlem başarılı
+    $response['item'] = $row;
     break;
 
   default:
