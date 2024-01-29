@@ -50,7 +50,12 @@ switch ($METHOD) {
 
   case 'get-teklifler':
     ################################### getData ###################################
-    $sql = "SELECT * FROM teklifler ORDER BY id DESC LIMIT 10";
+    $start = intval($data['start']);
+    $count = intval($data['count']);
+    $sql = "SELECT id, firmaadi FROM teklifler ORDER BY id DESC LIMIT $start, $count";
+    if ($start == 0 and $count == 0) {
+      $sql = "SELECT id, firmaadi FROM teklifler ORDER BY id DESC LIMIT 10";
+    }
     $SORGU = $DB->prepare($sql);
     $SORGU->execute();
     $rows = $SORGU->fetchAll(PDO::FETCH_ASSOC);

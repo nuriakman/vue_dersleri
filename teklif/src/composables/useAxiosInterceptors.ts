@@ -1,6 +1,7 @@
 // useAxiosInterceptors.ts
 
-import { ref, onUnmounted } from 'vue'
+import { ref} from 'vue'
+// import { onUnmounted } from 'vue' // Bu satırı ben kaldırdım. Nuri Akman
 import axios from 'axios'
 
 export function useAxiosInterceptors() {
@@ -52,7 +53,7 @@ export function useAxiosInterceptors() {
   }
 
   // Composable'in destroy edildiğinde interceptors'ları temizle
-  onUnmounted(cleanupInterceptors)
+  // onUnmounted(cleanupInterceptors) // Bu satırı ben kaldırdım. Nuri Akman
 
   // Composable'in dışa açılacak fonksiyonları
   return {

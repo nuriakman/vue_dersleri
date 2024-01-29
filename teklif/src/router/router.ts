@@ -7,11 +7,21 @@ import LogoutView from '@/views/LogoutView.vue'
 import OfferView from '@/views/OfferView.vue'
 import OfferEditView from '@/views/OfferEditView.vue'
 import OffersView from '@/views/OffersView.vue'
+import TestView from '@/views/TestView.vue'
 import PageNotFoundView from '@/views/PageNotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/test',
+      name: 'test',
+      component: TestView,
+      meta: {
+        requiresAuth: false,
+        title: 'Test Sayfası'
+      }
+    },
     {
       path: '/',
       name: 'home',
@@ -90,17 +100,17 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const globalStore = useGlobalStore()
-  if (to.meta.requiresAuth) {
-    if (globalStore.isLoggedIn) {
+  if (!to.meta.requiresAuth) {
+    next()
+  }
+  if (globalStore.isLoggedIn) {
+    next()
+  } else {
+    if (globalStore.getUserInfoFromStoredToken()) {
       next()
     } else {
-      if (globalStore.getUserInfoFromStoredToken()) {
-        next()
-      }
+      next({ name: 'login', replace: true, query: { redirect: to.fullPath } })
     }
-    next({ name: 'login', replace: true, query: { redirect: to.fullPath } })
-  } else {
-    next()
   }
 })
 

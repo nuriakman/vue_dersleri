@@ -32,7 +32,7 @@ function doLogin() {
     .then(function (response) {
       if (response.data.success) {
         if (globalStore.login(response.data.token)) {
-          const goToPage = $router.currentRoute.value.query.redirect as string | '/'
+          const goToPage = ($router.currentRoute.value.query.redirect as string) || '/'
           router.push(goToPage)
         } else {
           alert('Login başarısız oldu...')
