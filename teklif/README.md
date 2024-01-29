@@ -8,7 +8,6 @@ This template should help get you started developing with Vue 3 in Vite.
 npm create vue@latest
 npm install @picocss/pico
 npm install axios
-// npm instal @vueuse/core
 npm install jwt-decode
 ```
 

@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import router from '@/router/router'
 import axios from 'axios'
 import { reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-const myRouter = useRouter()
-const goToPage = ref<string | null>(null)
+const $router = useRouter()
 
 import { useGlobalStore } from '@/stores/store'
 const globalStore = useGlobalStore()
@@ -34,8 +32,8 @@ function doLogin() {
     .then(function (response) {
       if (response.data.success) {
         if (globalStore.login(response.data.token)) {
-          goToPage.value = myRouter.currentRoute.value.query.redirect as string | '/'
-          router.push(goToPage.value)
+          const goToPage = $router.currentRoute.value.query.redirect as string | '/'
+          router.push(goToPage)
         } else {
           alert('Login başarısız oldu...')
         }
@@ -52,7 +50,6 @@ function doLogin() {
 <template>
   <main>
     <h1>Giriş</h1>
-    {{ globalStore }}
     <form autocomplete="off" @submit.prevent="doLogin">
       <div class="grid">
         <label for="username">
