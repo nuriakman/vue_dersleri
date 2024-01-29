@@ -1,7 +1,13 @@
+<script setup lang="ts">
+const projectName = import.meta.env.VITE_PROJECT_NAME || 'Teklif'
+</script>
+
 <template>
   <nav>
     <ul>
-      <li><strong>Teklif</strong></li>
+      <li>
+        <strong>{{ projectName }}</strong>
+      </li>
     </ul>
     <ul>
       <li>
