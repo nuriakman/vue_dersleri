@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-const $router = useRouter()
 
 interface Item {
   id: number
@@ -11,11 +9,16 @@ interface Item {
 
 const item = ref<Item | null>(null)
 
+const myProps = defineProps(['id'])
+const editOfferId = myProps.id
+
+console.log({ editOfferId })
+
 onMounted(() => {
   axios
     .post('/index.php', {
       method: 'get-teklif',
-      id: $router.currentRoute.value.params.id
+      id: editOfferId
     })
     .then(function (response) {
       if (response.data.success) {
