@@ -19,7 +19,7 @@ const { setupRequestInterceptor, setupResponseInterceptor } = useAxiosIntercepto
 setupRequestInterceptor()
 setupResponseInterceptor()
 
-axios.defaults.baseURL = 'http://localhost/vue/teklif/public/api' // Sonunda '/' yok!
+axios.defaults.baseURL = 'http://localhost/vue_dersleri/teklif/public/api' // Sonunda '/' yok!
 axios.defaults.timeout = 5000 // 5 saniye
 axios.defaults.headers.post['Content-Type'] = 'application/json' // PHP ile iletişim JSON formatındaki veri ile yapılacak
 // axios.defaults.headers.common['Authorization'] = `Bearer ${token}` // Varsa JWT'yi ekle
