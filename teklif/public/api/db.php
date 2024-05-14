@@ -2,6 +2,9 @@
 
 // .end içindeki değişkenleri okuyalım...
 $envFilePath = __DIR__ . '/.env';
+if (!file_exists($envFilePath)) {
+  die(".env dosyası bulunamadı.");
+}
 $arrLines = file($envFilePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES); // Dosyayı satır satır okuyup diziye ata
 foreach ($arrLines as $line) {
   list($key, $value) = explode('=', $line, 2); // Her satırı işleyerek anahtar-değer çiftlerini al
